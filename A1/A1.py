@@ -16,9 +16,10 @@ print('')
 # create a list
 l = []
 
-i=0
+# start counting
+i = 0
 
-while True:
+while(i<1000):
     operator = input('Please enter operator [add/subtract/multiply/divide]: ')
 
     if (operator == 'add'):
@@ -43,5 +44,9 @@ while True:
         print(result)
     elif (operator == 'end'):
         break
+    elif (operator == 'history'):
+        print(l)
     else:
-        print('Please enter a valid statement')  
+        print('Please enter a valid statement')
+    hist = f"({i}) {operator} / {num1} / {num2} -> {result}"
+    l.append(hist)
