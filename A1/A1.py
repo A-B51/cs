@@ -17,7 +17,7 @@ print('')
 l = []
 
 # start counting
-i = 0
+i = 1
 
 while(i<1000):
     operator = input('Please enter operator [add/subtract/multiply/divide]: ')
@@ -53,5 +53,7 @@ while(i<1000):
         hist = f"({i}) {operator}"
     else:
         print('Please enter a valid statement')
+        hist = f"({i}) invalid"
     i = i + 1
     l.append(hist)
+ 
