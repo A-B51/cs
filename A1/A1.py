@@ -27,26 +27,31 @@ while(i<1000):
         num2 = input('Enter the second number: ')
         result = int(num1) + int(num2)
         print(result)
+        hist = f"({i}) {operator} / {num1} / {num2} -> {result}"
     elif (operator == 'subtract'):
         num1 = input('Enter the first number: ')
         num2 = input('Enter the second number: ')
         result = int(num1) - int(num2)
         print(result)
+        hist = f"({i}) {operator} / {num1} / {num2} -> {result}"
     elif (operator == 'multiply'):
         num1 = input('Enter the first number: ')
         num2 = input('Enter the second number: ')
         result = int(num1) * int(num2)
         print(result)
+        hist = f"({i}) {operator} / {num1} / {num2} -> {result}"
     elif (operator == 'divide'):
         num1 = input('Enter the first number: ')
         num2 = input('Enter the second number: ')
         result = int(num1) / int(num2)
         print(result)
+        hist = f"({i}) {operator} / {num1} / {num2} -> {result}"
     elif (operator == 'end'):
         break
     elif (operator == 'history'):
-        print(l)
+        print(*l, sep = '\n')
+        hist = f"({i}) {operator}"
     else:
         print('Please enter a valid statement')
-    hist = f"({i}) {operator} / {num1} / {num2} -> {result}"
+    i = i + 1
     l.append(hist)
