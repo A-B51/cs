@@ -19,7 +19,7 @@ l = []
 # start counting
 i = 1
 
-while(i<1000):
+while True:
     operator = input('Please enter operator [add/subtract/multiply/divide]: ')
 
     if (operator == 'add'):
@@ -56,4 +56,3 @@ while(i<1000):
         hist = f"({i}) invalid"
     i = i + 1
     l.append(hist)
- 
