@@ -22,9 +22,6 @@ l = []
 # start counting
 i = 1
 
-# recall
-m = []
-
 # calculations
 while True:
     operator = input('Please enter operator [add/subtract/multiply/divide]: ')
@@ -80,6 +77,3 @@ while True:
         hist = f"[{i}] invalid"
     i = i + 1
     l.append(hist)
-    m.append(res)
-
-Mi = int(float(m[i-1]))
