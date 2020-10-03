@@ -1,9 +1,28 @@
+"""
+a2_t1.card_came
+XX-YYY-ZZZ
+<Andre Bittencourt>
+"""
+
 import random
 
 SUITS = ['Clubs', 'Diamonds', 'Hearts', 'Spades']
 RANKS = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace']
 
 def generate_deck(deck):
+
+    """
+    This method creates the initial card deck as a list with all possible combinations of suits and ranks.
+    In contrast to the example on the lecture slides generating first all suits for a rank and continuing this for the next rank,
+    start with generating first all ranks for a suit and continue with the next suit. We will test this order.
+    You should represent each card as a list with three elements (strings) in the form ['rank of suit','suit','rank']
+    e.g. ['2 of Clubs', 'Clubs', '2'] and ['Jack of Diamonds', 'Diamonds', 'Jack']. Add each card to the deck list,
+    as a result the deck becomes a two-dimensional list with the cards being elements of the "outer" list and the
+    attributes of an individual card being elements of the "inner" list.
+
+    :param deck: an empty list
+    :return: a list of all cards of the card deck generated according to the descriptions above
+    """
 
     if deck == []:
         for suit in SUITS:
@@ -19,51 +38,20 @@ def generate_deck(deck):
 
 deck = []
 generate_deck(deck)
+#print(deck)
 
-# first index: deck position
-# second index: card position
-# print(deck[9][0])
+# Testing wether the list is 2-dimensional:
+deck[0][1]
 
-"""
-doesnt work like R: we need to run for loops to append stuff
-card.append(deck[0:][0])
-"""
+# creating cards to run the evaluation. Input in the function is going to be "card[number]"
+card = deck
 
-# testing enumerator suits
-"""
-for card_clubs in range(0,13):
-    deck[card_clubs][1] = 1
-
-print(deck)
-"""
-# testing enumerator special cards
-"""
-lj = [9, 22, 35, 48]
-for jacks in lj:
-    deck[jacks][2] = 11
-print(deck)
-
-lq = [10, 23, 36, 49]
-for queens in lq:
-    deck[queens][2] = 12
-print(deck)
-
-lk = [11, 24, 37, 50]
-for kings in lk:
-    deck[kings][2] = 13
-print(deck)
-
-la = [12, 25, 38, 51]
-for aces in la:
-    deck[aces][2] = 14
-print(deck)
-"""
-# defining card to call the function and create all possible cards and pasting it to orientation
-card = []
+# all cards (possible inputs):
+cards = []
 for i in range(len(deck)):
     c = deck[i][0]
     c = f'"{c}" = card[{i}]'
-    card.append(c)
+    cards.append(c)
 # print(*card, sep= '\n')
 
 """
@@ -121,10 +109,8 @@ for i in range(len(deck)):
 "Ace of Spades" = card[51]
 """
 
-# creating cards to run the evaluation
-card = deck
-
 def calculate_score(card):
+
     """
     This method is used to calculate the score of a card. The score is calculated based on the card's suit (2nd element
     of the list) and it's rank (3rd element of the list). The score is the sum of the points for the suit and the rank.
@@ -140,42 +126,6 @@ def calculate_score(card):
     suit=card[1]
     rank=card[2]
     card_score = None
-    
-    """
-    # enumerating suits
-    for card_clubs in range(0,13):
-        deck[card_clubs][1] = 1
-
-    for card_diamonds in range(14,26):
-        deck[card_diamonds][1] = 2 
-
-    for card_hearts in range(27,39):
-        deck[card_hearts][1] = 3
-    
-    for card_spades in range(40,52):
-        deck[card_spades][1] = 4
-    
-    # enumerating special cards
-    ## Jack with position list
-    lj = [9, 22, 35, 48]
-    for jacks in lj:
-        deck[jacks][2] = 11
-
-    ## Queen with position list
-    lq = [11, 24, 37, 50]
-    for queens in lq:
-        deck[queens][2] = 12
-
-    ## King with position list
-    lk = [11, 24, 37, 50]
-    for kings in lk:
-        deck[kings][2] = 13
-
-    ## Ace with position list
-    la = [12, 25, 38, 51]
-    for aces in la:
-        deck[aces][2] = 14
-    """
 
     if card[1] == 'Clubs':
         suit = 1
@@ -205,6 +155,203 @@ def calculate_score(card):
 
     return card_score
 
+def store_score(deck):
 
-print(calculate_score(card[0]))
-print(calculate_score(card[49]))
+    """
+    This method is used to store the score assigned with each card in a new dictionary. We will call the calculate_score(card)
+    method from here for each card of the deck (list) and store the card as key and its associated score as value in the dictionary.
+    Use the first element of the "card" list as key for the dictionary. Dictionary entries will look like this: '2 of Clubs': 3
+    and 'Jack of Diamonds': 13.
+
+    :param deck: the deck of all cards
+    :return: a dictionary of all cards and their individual scores, e.g. the card as key and its score as value
+    """
+        
+    score_dict =  {}
+
+    # changed the last term to run a forloop for all cards
+    for card in range(len(deck)):
+        
+        # selecting each card and store it in key variable (until the end of the deck)
+        key = deck[card][0]
+
+        # assigning card as key through variable and value as it individual score
+        score_dict[key] = calculate_score(deck[card])
+        
+        pass
+    return score_dict
+
+def shuffle(deck):
+
+    """
+    This method is used for shuffling a copy of the initial deck using the random.randrange() function (see lecture slides).
+
+    :param deck: a copy the deck of all cards
+    :return: the deck as list of shuffled cards
+    """
+    n = len(deck)
+    for i in range(n):
+        r = random.randrange(i, n)
+        temp = deck[r]
+        deck[r] = deck[i]
+        deck[i] = temp
+        pass
+    return deck
+
+# print(shuffle(deck))
+
+def deal_cards(deck):
+    
+    """
+    This method is used for dealing the cards of the shuffled deck to player1 and player2. Hand out the first ten cards
+    in an alternating way to the decks of the players, i.e. player1 gets the cards with indices 0,2,4,6,8 and player2
+    gets the cards with indices 1,3,5,7,9.
+    Hint: use the modulus function '%' to determine whether the current list index is odd or even.
+
+    :param deck: the deck of shuffled cards
+    :return deck_player1: a deck of 5 cards from the shuffled cards for player 1 as list
+    :return deck_player2: a deck of 5 cards from the shuffled cards for player 2 as list
+    """
+    deck_player1 = []
+    deck_player2 = []
+    
+    # player 1: first iteration number = 1, second iteration number = 3 (not 2) so on
+    for card in range(1,10,2):
+        card = card
+        card_player1 = deck[card]
+        deck_player1.append(card_player1)
+
+    # player 2:
+    for card2 in range(0,10,2):
+        card2 = card2
+        card_player2 = deck[card2]
+        deck_player2.append(card_player2)
+
+    return deck_player1, deck_player2
+
+#print(deal_cards(deck))
+
+def play_round(card1,card2,score_dict):
+
+    """
+    This method is used for playing one round comparing two cards with each other based on their calculated score.
+    Use the score_dict dictionary to look up the score for each card. Compare scores, if player1's score is larger than player 2's then
+    he/she wins, analogous for player2, or there is a tie if both scores are equal. Return the result as an Integer with:
+    1 means player 1 won, 2 means player 2, 0 means tie. Also, print the result of a round on the console in the form:
+    Player 1: 5 of Clubs, score=6
+    Player 2: Jack of Hearts, score=14
+    Hint: use f-strings or the format() function for strings to create the output strings.
+
+    :param card1: the current card of player 1
+    :param card2: the current card of player 2
+    :param score_dict: the dictionary of scores for all cards 
+    :return: the result of playing one round as Integer (0, 1 or 2)
+    """
+
+    res = None
+
+    card1 = card1
+    card2 = card2
+
+    print(card1)
+    print(card2)
+    print(score_dict[card1[0]])
+
+    if score_dict[card1[0]] > score_dict[card2[0]]:
+        res = 1
+    
+    elif score_dict[card2[0]] > score_dict[card1[0]]:
+        res = 2
+    
+    else:
+        res = 0
+
+    return res
+
+def play_game(deck1,deck2,score_dict):
+    """
+    This method is used for simulating a complete game consisting of playing all the cards on player1 and player2's decks,
+    i.e. 1 card each in 5 rounds. Call the play_round() function for each round with card1, card2 and the score dictionary
+    as input. Use the returned value of th play_round() function to evaluate the result of one round. Print if Player 1 or Player 2
+    won the round or there was a Tie on the console.
+    Also, keep track of the number of of wins for player 1, player 2 and ties. Similarly to playing one round, return
+    the total result of the game, with total=1 meaning that player 1 has won, total=2 meaning that player 2 has won,
+    and total=0 meaning nobody has won.
+    Print the result of a complete game on the console in the form:
+    The total score is: Player 1: 2, Player 2: 3, Ties: 0
+    Player 2 wins the game.
+    Hint: use the format() function to create the output strings.
+
+    :param deck1: the card deck of player 1
+    :param deck2: the card deck of player 2
+    :param score_dict: the dictionary of scores for all cards 
+    :return: the result of playing a game as Integer (0, 1 or 2)
+    """
+
+    wins1=0
+    wins2=0
+    ties=0
+    for i in range(len(deck1)):
+        #Your code here
+        pass
+    print('The total score is: Player 1: {}, Player 2: {}, Ties: {}'.format(wins1,wins2,ties))
+    if(wins1>wins2):
+        print('Player 1 wins the game.')
+        total=1
+    elif (wins1 < wins2):
+        print('Player 2 wins the game.')
+        total=2
+    elif (wins1 == wins2):
+        print('Nobody wins the game.')
+        total=0
+    return total
+
+def main():
+    """
+    The main method to be executed.
+    """
+
+    #1. We generate a new card deck with all cards.
+    card_deck = generate_deck([])
+
+    #2. We calculate the individual scores of each card and store them in a dictionary.
+    score_dict = store_score(card_deck)
+
+    cont='y'
+    while(cont=='y'):
+
+        #3. We create a copy of the original card deck.
+        shuffle_deck = card_deck.copy()
+
+        #4. We shuffle the copied deck.
+        shuffled_deck = shuffle(shuffle_deck)
+
+        #5. We deal cards from the shuffled deck to player 1 and player 2.
+        deck_player1,deck_player2 = deal_cards(shuffled_deck)
+
+        #6. We play a game of cards.
+        play_game(deck_player1,deck_player2,score_dict)
+
+        cont = input('Play again? Enter "y" to play another round. Press any other key to quit.')
+
+if __name__ == '__main__': main()
+
+
+# The complete output on the console for one exemplary game would look like this:
+# Player 1: 10 of Diamonds, score=12
+# Player 2: 8 of Diamonds, score=10
+# Player 1 wins
+# Player 1: 7 of Hearts, score=10
+# Player 2: 3 of Diamonds, score=5
+# Player 1 wins
+# Player 1: 2 of Hearts, score=5
+# Player 2: 8 of Spades, score=12
+# Player 2 wins
+# Player 1: King of Spades, score=17
+# Player 2: Jack of Clubs, score=12
+# Player 1 wins
+# Player 1: 3 of Spades, score=7
+# Player 2: Ace of Clubs, score=15
+# Player 2 wins
+# The total score is: Player 1: 3, Player 2: 2, Ties: 0
+# Player 1 wins the game.
