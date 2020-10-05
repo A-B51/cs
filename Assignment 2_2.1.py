@@ -292,9 +292,20 @@ def play_game(deck1,deck2,score_dict):
     wins2=0
     ties=0
     for i in range(len(deck1)):
-        #Your code here
+
+        # defining the result as returned value of the function play_round
+        res = play_round(deck1[i], deck2[i], score_dict)
+        
+        if res == 1:
+            wins1 = wins1 + 1
+        elif res == 2:
+            wins2 = wins2 + 1
+        else:
+            ties = ties + 1
+
         pass
-    print('The total score is: Player 1: {}, Player 2: {}, Ties: {}'.format(wins1,wins2,ties))
+
+    print(f'The total score is: Player 1: {wins1}, Player 2: {wins2}, Ties: {ties}'.format(wins1,wins2,ties))
     if(wins1>wins2):
         print('Player 1 wins the game.')
         total=1
